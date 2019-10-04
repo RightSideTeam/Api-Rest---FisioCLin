@@ -3,6 +3,7 @@ package com.rightside.fisioclinapi.resources;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +34,12 @@ public class HorarioResource {
 	@PostMapping("/horarios")
 	public Horario salvaHorario(@RequestBody Horario horario) {
 		return horarioRepository.save(horario);
+		
+	}
+	
+	@DeleteMapping("/horarios")
+	public void deletaHorario(@RequestBody Horario horario) {
+		horarioRepository.delete(horario);
 		
 	}
 
