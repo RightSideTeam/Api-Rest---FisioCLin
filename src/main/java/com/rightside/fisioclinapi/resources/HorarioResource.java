@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rightside.fisioclinapi.models.Horario;
@@ -27,17 +29,18 @@ public class HorarioResource {
 	@Autowired
 	HorarioRepository horarioRepository;
 	
-	@GetMapping("/horarios")
-	@ApiOperation(value="Retorna uma lista de horario cadastrado")
-	public List<Horario> listaHorarios() {
-		return horarioRepository.findAll();
+	
+	@RequestMapping(value="/horarios/{diaSemana}", method = RequestMethod.GET)
+	public List<Horario> listaHorariosDia(@PathVariable("diaSemana") String diaSemana) {
+		return horarioRepository.findBydiaSemana(diaSemana);
 	}
 	
-	@GetMapping("/horarios/{id}")
-	@ApiOperation(value="Retorna um horario especifico pelo id")
-	public Horario horarioEscolhido(@PathVariable(value="id") long id) {
-		return horarioRepository.findById(id);
+	@GetMapping("/horarios")
+	@ApiOperation(value = "Retorna Lista de horarios")
+	public List<Horario> listaHorarios(@RequestParam(value="diaSemana", required=false) String diaSemana) {
+			return horarioRepository.findAll();
 	}
+	
 	
 	@PostMapping("/horarios")
 	@ApiOperation(value="Salva um horario (somente a fisioterapeuta deve usar)")
